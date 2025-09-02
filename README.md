@@ -229,3 +229,6 @@ def exibir_usuarios():
                 print(usuario.strip())
     except FileNotFoundError:
         print("Arquivo de usuários não encontrado.")
+=======
+ - como sou um cara humilde e não quero humilhar "uzamigu" tomae
+print("Hello, World!")
