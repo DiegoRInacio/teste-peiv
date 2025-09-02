@@ -2,6 +2,7 @@
 
 ### Esta é a branch principal
   - Aqui quem fez o commit foi o Diego
+  - Novo
 
 Teste do Git
 from os import system, name
@@ -52,3 +53,4 @@ from adm import usuario_adm, senha_adm
     </main>
 </body>
 </html>
+
