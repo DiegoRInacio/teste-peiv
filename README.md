@@ -1,90 +1,20 @@
-# Teste PEI V
+# Aula Interativa sobre Estação Total (Série TTS)
 
-### Esta é a branch principal
-  - Aqui quem fez o commit foi o __Diego__
-  - Novo
+Este arquivo HTML tem como objetivo apresentar uma aula interativa sobre o uso da Estação Total Série TTS, utilizada em levantamentos topográficos. O conteúdo é estruturado em formato de slides navegáveis, permitindo ao aluno avançar e retornar conforme a necessidade.
 
-### Agregação do __Vinicius__
-Teste do Git
-from os import system, name
-from stdiomask import getpass
-from time import sleep
-from adm import usuario_adm, senha_adm
+A apresentação aborda três módulos fundamentais:
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'rel='stylesheet'> 
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+ - 1. Módulo 1 – Componentes e funções do equipamento
+Explica nomes, partes, teclas, elementos ópticos, tecnologias embarcadas e estrutura física da estação total.
 
+- 2. Módulo 2 – Configurações essenciais
+Detalha procedimentos de inicialização, ajustes de unidades, correções atmosféricas, altura do instrumento e altura do prisma, além de criação de jobs e definição de sistemas de coordenadas.
 
-    <title>Marketplace de Produtos</title>
-</head>
-<body>
-    <main class="container">
-        <form><!--aqui vai ser a parte que solicita o login e senha-->
-            <h1>login</h1>
-            <div class="input-box">
-                <input placeholder="Usuario" type="email">
-                <i class='bx bxs-user' ></i><!--icone de usuario-->
-            </div>
-            <div class="input-box">
-                <input placeholder="Senha" type="password">
-                <i class='bx bxs-lock-alt' ></i><!--icone de senha-->
-            </div>
+- 3. Módulo 3 – Técnicas de levantamento topográfico
+Descreve instalação em campo, nivelamento, orientação, métodos de levantamento (radial e poligonal), medições, verificações de fechamento e erros comuns.
 
-            <div class="lembrar-senha"><!--aqui vai ser o botao de lembrar a senha-->
-                <label>
-                    <input type="checkbox">
-                    Lembrar a minha senha
-                </label>
-                <a href="#">esqueceu a senha?</a><!--aqui vou criar um link para levar em algum lugar--> 
-            </div>
-            <button type="submit">login</button>
-            <div>
-                <p>Não tem uma conta? <a href="#">cadastre-se</a></p>
-            </div>
-        </form>
+Além do conteúdo teórico, o arquivo inclui exemplos práticos, diagramas, trechos de pseudocódigo, checklists, exercícios e modelos de caderneta de campo.
 
-    </main>
-</body>
-</html>
+A navegação é realizada por botões de avanço, retorno ou setas do teclado, tornando a aula dinâmica, de fácil leitura e adequada para o ensino presencial ou remoto.
 
-### Agragação do __Fábio__
- - como sou um cara humilde e não quero humilhar "uzamigu" tomae
-print("Hello, World!")
-
-
-import streamlit as st
-
-# Configuração da página
-st.set_page_config(page_title="Cadastro de Usuário", layout="centered")
-
-# Título
-st.title("📋 Cadastro de Usuário")
-
-# Formulário de cadastro
-with st.form("form_cadastro"):
-    nome = st.text_input("Nome completo")
-    email = st.text_input("Email")
-    senha = st.text_input("Senha", type="password")
-    confirmar = st.text_input("Confirmar senha", type="password")
-    enviar = st.form_submit_button("Cadastrar")
-
-    # Validação
-    if enviar:
-        if not nome or not email or not senha or not confirmar:
-            st.warning("⚠️ Todos os campos são obrigatórios.")
-        elif senha != confirmar:
-            st.error("❌ As senhas não coincidem.")
-        else:
-            st.success(f"✅ Usuário '{nome}' cadastrado com sucesso!")
-            # Aqui você pode adicionar lógica para salvar os dados
-            # Exemplo: salvar em banco de dados ou arquivo
-
-é muita humilhacao 
+O objetivo geral do HTML é fornecer ao aluno um material consolidado, didático e visualmente organizado, permitindo compreender tanto o funcionamento interno do equipamento quanto as práticas de campo necessárias para executar um levantamento topográfico com precisão.
