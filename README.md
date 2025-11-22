@@ -1,4 +1,4 @@
-# Aula Interativa sobre Estação Total (Série TTS)
+# Aula Interativa sobre Estação Total (Série TTS2)
 
 Este arquivo HTML tem como objetivo apresentar uma aula interativa sobre o uso da Estação Total Série TTS, utilizada em levantamentos topográficos. O conteúdo é estruturado em formato de slides navegáveis, permitindo ao aluno avançar e retornar conforme a necessidade.
 
