@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AULA DE AMBIENTALIZAÇÃO: ESTAÇÃO TOTAL SÉRIE TTS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 60px;
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .slide h1 {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            color: #34495e;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #1e3c72;
+            padding-bottom: 10px;
+        }
+
+        .slide h3 {
+            font-size: 1.8rem;
+            color: #1e3c72;
+            margin: 20px 0 15px 0;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .slide ul {
+            margin-left: 30px;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .code-block .comment {
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .code-block .keyword {
+            color: #1e90ff;
+            font-weight: bold;
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .exercise-container {
+            background: #f8f9fa;
+            border: 2px solid #1e3c72;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .exercise-step {
+            background: white;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: 1fr 3px 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #1e3c72;
+            position: relative;
+        }
+
+        .timeline-item.right {
+            grid-column: 3;
+        }
+
+        .timeline-line {
+            background: #1e3c72;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 15px;
+            height: 15px;
+            background: #e74c3c;
+            border-radius: 50%;
+            position: absolute;
+            left: -6px;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: rgba(30, 60, 114, 0.8);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #1e3c72;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(30, 60, 114, 0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            z-index: 1000;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .checklist li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .checklist li:before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px;
+            }
+            
+            .slide h1 {
+                font-size: 2rem;
+            }
+            
+            .slide h2 {
+                font-size: 1.8rem;
+            }
+            
+            .two-column, .three-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .code-block {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+            white-space: pre;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .code-block .comment {
+            color: #718096;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">45</span>
+        </div>
+
+        <!-- Slide 1: Título -->
+        <div class="slide active">
+            <h1>📏 AULA DE AMBIENTALIZAÇÃO: ESTAÇÃO TOTAL SÉRIE TTS2</h1>
+            <div style="text-align: center; margin: 40px 0;">
+                <h3>Do Equipamento ao Levantamento Topográfico Profissional</h3>
+                <p style="font-size: 1.4rem; color: #7f8c8d; margin-top: 30px;">
+                    Domine a Estação Total: Componentes, Configurações e Técnicas de Campo
+                </p>
+                <div style="margin-top: 50px;">
+                    <span class="highlight">Componentes</span> • 
+                    <span class="highlight">Configurações</span> • 
+                    <span class="highlight">Levantamento</span> • 
+                    <span class="highlight">Precisão</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Sumário -->
+        <div class="slide">
+            <h2>📚 SUMÁRIO</h2>
+            <div class="three-column">
+                <div class="card">
+                    <h4>🛠️ Módulo 1</h4>
+                    <p>Nomes e Funções do Equipamento</p>
+                </div>
+                <div class="card">
+                    <h4>⚙️ Módulo 2</h4>
+                    <p>Configurações Essenciais</p>
+                </div>
+                <div class="card">
+                    <h4>📐 Módulo 3</h4>
+                    <p>Levantamento Topográfico</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 1.3rem; color: #2c3e50;">
+                    <strong>45 Slides • 3 Módulos • Hands-on Completo</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Módulo 1 - Introdução -->
+        <div class="slide">
+            <h2>🛠️ MÓDULO 1: NOMES E FUNÇÕES DO EQUIPAMENTO</h2>
+            <div class="two-column">
+                <div>
+                    <h3>🎯 Objetivos</h3>
+                    <ul>
+                        <li>Identificar todos os componentes</li>
+                        <li>Entender funções de cada tecla</li>
+                        <li>Conhecer tecnologias integradas</li>
+                        <li>Preparar para operação segura</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>📋 Estrutura</h3>
+                    <ul>
+                        <li>Display e Interface</li>
+                        <li>Teclas de Função</li>
+                        <li>Componentes Externos</li>
+                        <li>Tecnologias EDM e Compensador</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Display e Interface -->
+        <div class="slide">
+            <h2>🖥️ Display e Interface</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Componentes da Tela</h3>
+                    <ul>
+                        <li><strong>Display LCD</strong>: Informações principais</li>
+                        <li><strong>Iluminação</strong>: Trabalho noturno</li>
+                        <li><strong>Área de visualização</strong>: Coordenadas, ângulos, distâncias</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="code-block">
+<span class="comment">// Exemplo de tela ativa</span>
+┌─────────────────────┐
+│ Ponto: 15           │
+│ Hz:  45°32'18"      │
+│ V:   92°15'42"      │
+│ DI:  23.456m        │
+│ DH:  23.125m        │
+│ DN:  +0.923m        │
+│ Código: DIV         │
+└─────────────────────┘
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Teclas Superiores -->
+        <div class="slide">
+            <h2>⌨️ Teclas Superiores</h2>
+            <div class="three-column">
+                <div class="card">
+                    <h4>Menu/Direita</h4>
+                    <p>Acessa menu principal<br>Navega para direita</p>
+                </div>
+                <div class="card">
+                    <h4>Gravar Coord/Esquerda</h4>
+                    <p>Salva pontos<br>Navega para esquerda</p>
+                </div>
+                <div class="card">
+                    <h4>Gravar Dist/Abaixo</h4>
+                    <p>Registra distâncias<br>Move cursor para baixo</p>
+                </div>
+            </div>
+            <div class="three-column" style="margin-top: 20px;">
+                <div class="card">
+                    <h4>Gravar Ângulo/Acima</h4>
+                    <p>Salva ângulos<br>Move cursor para cima</p>
+                </div>
+                <div class="card">
+                    <h4>Teclado Numérico</h4>
+                    <p>0-9, letras, símbolos</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Teclas Inferiores F1-F4 -->
+        <div class="slide">
+            <h2>🔘 Teclas Inferiores (F1-F4)</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Funções Dinâmicas</h3>
+                    <ul>
+                        <li><strong>F1</strong>: Configurações rápidas</li>
+                        <li><strong>F2</strong>: Medição</li>
+                        <li><strong>F3</strong>: Dados/Memória</li>
+                        <li><strong>F4</strong>: Ajustes</li>
+                    </ul>
+                    <p class="highlight">Mudam conforme tela ativa</p>
+                </div>
+                <div>
+                    <div class="code-block">
+<span class="comment">// Exemplo de atalhos</span>
+[F1] Config → [F2] Medir → [F3] Job → [F4] Calib
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Teclas Laterais -->
+        <div class="slide">
+            <h2>🟦 Teclas Laterais Importantes</h2>
+            <div class="three-column">
+                <div class="card">
+                    <h4>ENTER</h4>
+                    <p>Confirma operações</p>
+                </div>
+                <div class="card">
+                    <h4>Exit/Sair</h4>
+                    <p>Retorna menu anterior</p>
+                </div>
+                <div class="card">
+                    <h4>Tecla Estrela</h4>
+                    <p>Funções especiais</p>
+                </div>
+            </div>
+            <div class="three-column" style="margin-top: 20px;">
+                <div class="card">
+                    <h4>Ligar/Desligar</h4>
+                    <p>Power on/off</p>
+                </div>
+                <div class="card">
+                    <h4>ESC</h4>
+                    <p>Cancela operação</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Teclas Laterais Cinzas -->
+        <div class="slide">
+            <h2>⚡ Teclas Laterais Cinzas (4-5)</h2>
+            <ul>
+                <li>Ativar/desativar laser</li>
+                <li>Iluminação da retícula</li>
+                <li>Funções rápidas de medição</li>
+                <li>Mudança de face (luneta)</li>
+            </ul>
+            <p class="highlight" style="margin-top: 20px;">Essenciais para operação ágil em campo!</p>
+        </div>
+
+        <!-- Slide 9: Luneta e Objetiva -->
+        <div class="slide">
+            <h2>🔭 Luneta e Objetiva</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Componentes Ópticos</h3>
+                    <ul>
+                        <li><strong>Luneta</strong>: Telescópio para mirar</li>
+                        <li><strong>Objetiva</strong>: Lente frontal</li>
+                        <li><strong>Ocular</strong>: Visualização</li>
+                        <li><strong>Foco</strong>: Anel de nitidez</li>
+                        <li><strong>Retícula</strong>: Cruz de fios</li>
+                    </ul>
+                </div>
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <img src="imagem/luneta.jpeg" alt="Luneta" style="width:100%; max-width:300px; margin: auto; display: block;">
+                    <p style="text-align: center; font-size: 0.9rem; color: #7f8c8d; margin-top: 10px;">Pontaria precisa com retícula</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Parafusos de Movimento -->
+        <div class="slide">
+            <h2>🔧 Parafusos de Movimento</h2>
+            <div class="three-column">
+                <div class="card">
+                    <h4>Fixação Horizontal</h4>
+                    <p>Trava movimento Hz</p>
+                </div>
+                <div class="card">
+                    <h4>Fixação Vertical</h4>
+                    <p>Trava movimento V</p>
+                </div>
+                <div class="card">
+                    <h4>Aproximação</h4>
+                    <p>Ajuste fino H e V</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Níveis -->
+        <div class="slide">
+            <h2>🛠️ Níveis</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Tipos de Níveis</h3>
+                    <ul>
+                        <li><strong>Bolha Circular</strong>: Nivelamento grosseiro</li>
+                        <li><strong>Eletrônico</strong>: Nivelamento fino (display)</li>
+                        <li><strong>Prumo Laser</strong>: Centralização sobre ponto</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="code-block">
+<span class="comment">// Nível eletrônico</span>
+Nivel H: 0° 00' 02"
+Nivel V: 0° 00' 01"
+<span class="keyword">[OK]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Base e Prisma -->
+        <div class="slide">
+            <h2>🗜️ Base, Fixação e Prisma</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Base Nivelante</h3>
+                    <ul>
+                        <li>3 parafusos calantes</li>
+                        <li>Rosca para tripé</li>
+                        <li>Parafuso de centragem</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Prisma e Bastão</h3>
+                    <ul>
+                        <li>Prisma refletor</li>
+                        <li>Bastão com nível</li>
+                        <li>Altura do prisma: medir!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Tecnologias Integradas -->
+        <div class="slide">
+            <h2>🚀 Tecnologias Integradas</h2>
+            <div class="three-column">
+                <div class="card">
+                    <h4>EDM</h4>
+                    <p>Infravermelho<br>2.000-5.000m<br>±2mm + 2ppm</p>
+                </div>
+                <div class="card">
+                    <h4>Compensador</h4>
+                    <p>Correção automática<br>±3' a ±4'</p>
+                </div>
+                <div class="card">
+                    <h4>Processador</h4>
+                    <p>Cálculos automáticos<br>Armazenamento<br>Programas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Módulo 2 - Introdução -->
+        <div class="slide">
+            <h2>⚙️ MÓDULO 2: CONFIGURAÇÕES</h2>
+            <div class="two-column">
+                <div>
+                    <h3>🎯 Objetivos</h3>
+                    <ul>
+                        <li>Configurações iniciais</li>
+                        <li>Unidades e correções</li>
+                        <li>Alturas AI/AP</li>
+                        <li>Jobs e coordenadas</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>⚠️ Importante</h3>
+                    <p class="highlight">Erros de configuração = Erros em TODOS os pontos!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Ligar Equipamento -->
+        <div class="slide">
+            <h2>🔋 Ligar o Equipamento</h2>
+            <div class="exercise-container">
+                <div class="exercise-step">
+                    <div class="code-block">
+1. Pressione LIGAR/DESLIGAR
+2. Aguarde inicialização <span class="comment">(10-15s)</span>
+3. Tela inicial aparece
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Ajuste Display -->
+        <div class="slide">
+            <h2>💡 Ajuste de Contraste e Iluminação</h2>
+            <div class="code-block">
+Menu → Config → Display
+- Contraste: 1-10
+- Iluminação: Liga/Desliga
+- Brilho retícula: Ajustável
+            </div>
+        </div>
+
+        <!-- Slide 17: Unidades - Ângulos -->
+        <div class="slide">
+            <h2>📐 Configurações de Unidades - Ângulos</h2>
+            <div class="two-column">
+                <div>
+                    <ul>
+                        <li>Graus decimais: 123.4567°</li>
+                        <li>GMS: 123° 27' 24"</li>
+                        <li>Grados: 137.1741g</li>
+                        <li>Milésimos: 2182.3mil</li>
+                    </ul>
+                    <p class="highlight">Brasil: Graus decimais ou GMS</p>
+                </div>
+                <div>
+                    <div class="code-block">
+Menu → Config → Unidades → Ângulos
+<span class="keyword">[x]</span> Graus decimais
+[ ] GMS
+[ ] Grados
+            </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Unidades - Distâncias e Coordenadas -->
+        <div class="slide">
+            <h2>📏 Unidades - Distâncias e Coordenadas</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Distâncias</h3>
+                    <ul>
+                        <li>Metros (m) - padrão</li>
+                        <li>Pés (ft)</li>
+                        <li>Polegadas (in)</li>
+                    </ul>
+                    <p class="highlight">Brasil: Metros</p>
+                </div>
+                <div>
+                    <h3>Coordenadas</h3>
+                    <ul>
+                        <li>NEZ (Norte, Este, Altura)</li>
+                        <li>XYZ (cartesiano)</li>
+                    </ul>
+                    <p class="highlight">Topografia: NEZ</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Temperatura e Pressão -->
+        <div class="slide">
+            <h2>🌡️ Temperatura e Pressão</h2>
+            <div class="two-column">
+                <div>
+                    <ul>
+                        <li>Celsius / Fahrenheit</li>
+                        <li>mmHg / hPa / inHg</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="code-block">
+<span class="comment">// Fórmula PPM</span>
+PPM = 286.3 - (0.29 × P / (1 + 0.00366 × T))
+<span class="comment">// Brasil típicos:</span>
+Nível mar: 760mmHg / 20°C
+Altitude 800m: 690mmHg / 18°C
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Modo de Medição -->
+        <div class="slide">
+            <h2>🎯 Modo de Medição</h2>
+            <div class="three-column">
+                <div class="card">
+                    <h4>Fino</h4>
+                    <p>Mais preciso<br>Mais lento</p>
+                </div>
+                <div class="card">
+                    <h4>Rápido</h4>
+                    <p>Menos preciso<br>Mais rápido</p>
+                </div>
+                <div class="card">
+                    <h4>Tracking</h4>
+                    <p>Medição contínua</p>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 20px; grid-column: span 3;">
+                <h4>Média</h4>
+                <p>Média de 3-5 medições<br>Pontos críticos</p>
+            </div>
+        </div>
+
+        <!-- Slide 21: Correções Atmosféricas -->
+        <div class="slide">
+            <h2>☁️ Correções Atmosféricas</h2>
+            <div class="code-block">
+Menu → Config → PPM/Correções
+- Temperatura: 25°C
+- Pressão: 760 mmHg
+- Fator PPM: <span class="keyword">Calculado auto</span>
+            </div>
+        </div>
+
+        <!-- Slide 22: Altura do Instrumento (AI) -->
+        <div class="slide">
+            <h2>📏 Altura do Instrumento (AI)</h2>
+            <div class="exercise-container">
+                <div class="exercise-step">
+                    <h4>Como medir:</h4>
+                    <ul>
+                        <li>Fita métrica do ponto ao centro óptico</li>
+                        <li>Altura padrão do tripé</li>
+                        <li>Registrar: 1.550m (3 casas)</li>
+                    </ul>
+                    <p class="highlight">Erro aqui afeta TODAS as alturas!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: Altura do Prisma (AP) -->
+        <div class="slide">
+            <h2>🎯 Altura do Prisma (AP)</h2>
+            <div class="two-column">
+                <div>
+                    <ul>
+                        <li>Padrão: 1.500m</li>
+                        <li>Usar escala do bastão</li>
+                        <li>Conferir com trena</li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="data:image/svg+xml;base64,..." alt="Bastão" style="width:100%; max-width:250px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Criar Novo Job -->
+        <div class="slide">
+            <h2>📁 Criar Novo Job</h2>
+            <div class="code-block">
+Menu → Arquivo → Novo Job
+- Nome: LOTE_15_2024
+- Data: 07/11/2024
+- Descrição: Levantamento lote 15
+- Operador: João Silva
+            </div>
+        </div>
+
+        <!-- Slide 25: Sistema de Coordenadas -->
+        <div class="slide">
+            <h2>🌍 Sistema de Coordenadas</h2>
+            <div class="three-column">
+                <div class="card">
+                    <h4>Locais</h4>
+                    <p>N: 1000.000<br>E: 1000.000<br>Z: 100.000</p>
+                </div>
+                <div class="card">
+                    <h4>UTM</h4>
+                    <p>Coordenadas reais</p>
+                </div>
+                <div class="card">
+                    <h4>Geodésicas</h4>
+                    <p>Latitude/Longitude</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Calibração -->
+        <div class="slide">
+            <h2>🔧 Calibração do Compensador</h2>
+            <div class="exercise-container">
+                <div class="exercise-step">
+                    <ul>
+                        <li>Em terreno estável</li>
+                        <li>Após transporte</li>
+                        <li>Mensalmente (mínimo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 27: Verificação de Colimação -->
+        <div class="slide">
+            <h2>🎯 Verificação de Colimação (Duas Faces)</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Face 1</h4>
+                    <p>Medir ponto</p>
+                </div>
+                <div class="timeline-line"><div class="timeline-dot" style="top: 30%;"></div></div>
+                <div class="timeline-item right">
+                    <h4>Girar 180°</h4>
+                    <p>Mudar luneta</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Face 2</h4>
+                    <p>Medir mesmo ponto</p>
+                </div>
+                <div class="timeline-line"><div class="timeline-dot" style="top: 70%;"></div></div>
+                <div class="timeline-item right">
+                    <h4>Corrigir</h4>
+                    <p>Aplicar correção</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 28: Módulo 3 - Introdução -->
+        <div class="slide">
+            <h2>📐 MÓDULO 3: LEVANTAMENTO TOPOGRÁFICO</h2>
+            <div class="two-column">
+                <div>
+                    <h3>🎯 Objetivos</h3>
+                    <ul>
+                        <li>Preparação completa</li>
+                        <li>Instalação e orientação</li>
+                        <li>Coleta sistemática</li>
+                        <li>Verificações de campo</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>⚡ Foco Prático</h3>
+                    <p class="highlight">Parte Principal da Aula!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 29: Checklist Pré-Campo -->
+        <div class="slide">
+            <h2>✅ Checklist Pré-Campo</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Equipamentos</h3>
+                    <ul class="checklist">
+                        <li>Estação Total + bateria</li>
+                        <li>Bateria reserva</li>
+                        <li>Tripé</li>
+                        <li>Prisma + bastão "No nosso caso é a régua"</li>
+                        <li>Trena 5m</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Documentos</h3>
+                    <ul class="checklist">
+                        <li>Memorial descritivo</li>
+                        <li>Croqui da área</li>
+                        <li>Coordenadas de marcos</li>
+                        <li>ART / RRT</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 30: Instalação do Tripé -->
+        <div class="slide">
+            <h2>🗼 Posicionamento do Tripé</h2>
+            <div class="exercise-container">
+                <div class="exercise-step">
+                    <ol>
+                        <li>Abrir sobre o ponto</li>
+                        <li>Altura: queixo do operador</li>
+                        <li>Base horizontal aproximada</li>
+                        <li>Apertar pernas</li>
+                        <li>Pisar nas sapatas</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 31: Nivelamento Grosseiro -->
+        <div class="slide">
+            <h2>🛠️ Nivelamento Grosseiro</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Técnica dos 3 Parafusos</h3>
+                    <div style="text-align: center;">
+                        <pre style="display: inline-block; background: #f8f9fa; padding: 15px; border-radius: 10px;">
+    (A)
+   /   \
+  /     \
+(B)-----(C)
+                        </pre>
+                    </div>
+                </div>
+                <div>
+                    <ul>
+                        <li>Bolha entre A-B: girar A e B opostos</li>
+                        <li>Bolha entre A-C: girar A e C opostos</li>
+                        <li>Bolha entre B-C: girar B e C opostos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 32: Prumo e Centragem -->
+        <div class="slide">
+            <h2>🎯 Prumo Laser e Centragem</h2>
+            <div class="exercise-container">
+                <div class="exercise-step">
+                    <ol>
+                        <li>Ativar prumo laser</li>
+                        <li>Verificar laser no ponto</li>
+                        <li>Soltar base e mover</li>
+                        <li>Re-apertar</li>
+                        <li>Repetir até ±5mm</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 33: Nivelamento Fino -->
+        <div class="slide">
+            <h2>🔧 Nivelamento Fino Eletrônico</h2>
+            <div class="exercise-container">
+                <div class="exercise-step">
+                    <ol>
+                        <li>Ligar estação</li>
+                        <li>Acessar tela eletrônica</li>
+                        <li>Ajustar parafusos</li>
+                        <li>Girar 90° e verificar</li>
+                        <li>Repetir em 4 posições</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 34: Orientação - Ré Conhecida -->
+        <div class="slide">
+            <h2>🌐 Método 1: Ré Conhecida</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Configurar PE</h4>
+                    <p>Coordenadas + AI</p>
+                </div>
+                <div class="timeline-line"><div class="timeline-dot" style="top: 20%;"></div></div>
+                <div class="timeline-item right">
+                    <h4>Configurar Ré</h4>
+                    <p>Coordenadas conhecidas</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Visar Ré</h4>
+                    <p>Ajuste fino + ENTER</p>
+                </div>
+                <div class="timeline-line"><div class="timeline-dot" style="top: 60%;"></div></div>
+                <div class="timeline-item right">
+                    <h4>Medir</h4>
+                    <p>Azimute calculado</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 35: Orientação - Ré Assumida -->
+        <div class="slide">
+            <h2>🔄 Método 2: Ré Assumida</h2>
+            <div class="code-block">
+Menu → Medição → Zerar Hz
+1. Visar ponto estável
+2. Pressionar "Zerar Hz"
+3. Hz = 0° 00' 00"
+<span class="comment">// Sistema local</span>
+            </div>
+        </div>
+
+        <!-- Slide 36: Tipos de Pontos -->
+        <div class="slide">
+            <h2>🎯 Tipos de Pontos a Levantar</h2>
+            <div class="three-column">
+                <div class="card">
+                    <h4>Contorno</h4>
+                    <p>5-20m<br>Mudar direção</p>
+                </div>
+                <div class="card">
+                    <h4>Relevo</h4>
+                    <p>Topos, vales<br>10-30m</p>
+                </div>
+                <div class="card">
+                    <h4>Detalhes</h4>
+                    <p>Construções, árvores</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 37: Procedimento de Medição -->
+        <div class="slide">
+            <h2>📏 Procedimento Padrão de Medição</h2>
+            <div class="exercise-container">
+                <div class="exercise-step">
+                    <h4>1. Posicionar Prisma</h4>
+                    <p>Vertical, nível bolha</p>
+                </div>
+                <div class="exercise-step">
+                    <h4>2. Visar Prisma</h4>
+                    <p>Fixações + ajuste fino</p>
+                </div>
+                <div class="exercise-step">
+                    <h4>3. Medir</h4>
+                    <p>Tecla MEDIR → bip</p>
+                </div>
+                <div class="exercise-step">
+                    <h4>4. Gravar</h4>
+                    <p>Código + GRAVAR</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 38: Estratégia Radial -->
+        <div class="slide">
+            <h2>🌟 Método Radial (Irradiação)</h2>
+            <div style="text-align: center;">
+                <pre style="display: inline-block; background: #f8f9fa; padding: 20px; border-radius: 10px; font-family: monospace;">
+         P3    P4
+          \   /
+           \ /
+    P2 ---- ET ---- P5
+           / \
+          /   \
+        P1     P6
+                </pre>
+            </div>
+            <div class="two-column" style="margin-top: 20px;">
+                <div><strong>Vantagens:</strong> Rápido, uma estação</div>
+                <div><strong>Desvantagens:</strong> Sem verificação</div>
+            </div>
+        </div>
+
+        <!-- Slide 39: Estratégia Poligonal -->
+        <div class="slide">
+            <h2>🔗 Método Poligonal</h2>
+            <div style="text-align: center;">
+                <pre style="display: inline-block; background: #f8f9fa; padding: 20px; border-radius: 10px; font-family: monospace;">
+E1 ──→ E2 ──→ E3 ──→ E4
+ │      │      │      │
+Re     Re     Re     Re
+ │      │      │      │
+ ↓      ↓      ↓      ↓
+Pontos Pontos Pontos Pontos
+                </pre>
+            </div>
+            <p class="highlight" style="text-align: center; margin-top: 20px;">Permite fechamento e verificação!</p>
+        </div>
+
+        <!-- Slide 40: Verificação de Fechamento -->
+        <div class="slide">
+            <h2>✅ Verificação de Fechamento</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Erro Angular</h3>
+                    <div class="code-block">
+Ea = ± √n × a"
+n=4, a"=5" → Ea = ±10"
+                    </div>
+                </div>
+                <div>
+                    <h3>Erro Linear</h3>
+                    <div class="code-block">
+El = 1/M
+200m, 1:5000 → 4cm
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 41: Caderneta de Campo -->
+        <div class="slide">
+            <h2>📓 Modelo de Caderneta</h2>
+            <div class="code-block" style="font-size: 0.8rem;">
+LEVANTAMENTO TOPOGRÁFICO - 07/11/2024
+ESTAÇÃO 1 - PE: M1 N:1000.000 E:1000.000 Z:100.000
+AI:1.550m AP:1.500m Ré:M2 Az:0°00'00"
+Ponto│ Hz        │ V        │ DH    │ Código
+  1  │ 15°32'18"│ 90°15'30"│ 23.45 │ DIV-01
+  2  │ 28°45'12"│ 89°52'45"│ 31.20 │ DIV-02
+            </div>
+        </div>
+
+        <!-- Slide 42: Erros Comuns -->
+        <div class="slide">
+            <h2>⚠️ Erros Comuns e Prevenção</h2>
+            <div class="three-column">
+                <div class="card" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                    <h4>AI Errada</h4>
+                    <p>TODAS alturas erradas!</p>
+                </div>
+                <div class="card" style="background: linear-gradient(135deg, #e67e22, #d35400);">
+                    <h4>Prisma Inclinado</h4>
+                    <p>Coordenadas Z erradas</p>
+                </div>
+                <div class="card" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">
+                    <h4>Desnivelado</h4>
+                    <p>Erros sistemáticos</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 43: Exercícios Práticos -->
+        <div class="slide">
+            <h2>🏆 Exercícios Práticos</h2>
+            <div class="exercise-container">
+                <div class="exercise-step">
+                    <h4>1. Instalação</h4>
+                    <p>Nivelar em &lt;5 min, ±3mm</p>
+                </div>
+                <div class="exercise-step">
+                    <h4>2. Medição</h4>
+                    <p>10 pontos, &lt;2min/ponto</p>
+                </div>
+                <div class="exercise-step">
+                    <h4>3. Poligonal</h4>
+                    <p>Quadrado 20m, calcular erros</p>
+                </div>
+                <div class="exercise-step">
+                    <h4>4. Real</h4>
+                    <p>Área 1000m², 40-60 pontos</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 44: 10 Mandamentos -->
+        <div class="slide">
+            <h2>📜 Os 10 Mandamentos do Topógrafo</h2>
+            <ol style="font-size: 1.1rem; line-height: 1.8;">
+                <li>Sempre confira o nivelamento</li>
+                <li>Meça AI com precisão</li>
+                <li>Prisma vertical sempre</li>
+                <li>Grave TODOS os pontos</li>
+                <li>Caderneta é segurança</li>
+                <li>Verifique orientação</li>
+                <li>Fechamento obrigatório</li>
+                <li>Solo instável = cuidado</li>
+                <li>Equipamento é investimento</li>
+                <li>Campo com sol é melhor</li>
+            </ol>
+        </div>
+
+        <!-- Slide 45: Encerramento -->
+        <div class="slide">
+            <h2>🎯 Recapitulação e Próximos Passos</h2>
+            <div style="text-align: center; padding: 40px; background: linear-gradient(135deg, #1e3c72, #2a5298); border-radius: 15px; color: white;">
+                <h3>✅ Dominamos:</h3>
+                <p style="font-size: 1.3rem; margin: 20px 0;">
+                    Componentes • Configurações • Levantamento • Verificações
+                </p>
+                <h3>🚀 Próxima Aula:</h3>
+                <p style="font-size: 1.2rem;">
+                    Processamento • CAD • Relatórios • Normas Técnicas
+                </p>
+                <p style="margin-top: 30px; font-size: 1.1rem;">
+                    <strong>Atividade:</strong> Levantar área real + caderneta completa
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">⬅️ Anterior</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Próximo ➡️</button>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            const newIndex = currentSlideIndex + direction;
+            if (newIndex >= 0 && newIndex < totalSlides) {
+                currentSlideIndex = newIndex;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowLeft') changeSlide(-1);
+            else if (event.key === 'ArrowRight') changeSlide(1);
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
